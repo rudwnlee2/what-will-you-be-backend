@@ -1,0 +1,94 @@
+plugins {
+	id 'java' // Java 프로젝트
+	id 'jacoco' // 코드 커버리지 측정 도구
+	id 'org.springframework.boot' version '3.5.0' // Spring Boot 플러그인
+	id 'io.spring.dependency-management' version '1.1.7' // 의존성 버전 관리
+}
+
+group = 'com.example.whatwillyoube'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17) // 자바 17 사용
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor // lombok 같은 annotation processor 전용
+	}
+}
+
+repositories {
+	mavenCentral() // 의존성 다운로드 저장소
+}
+
+dependencies {
+	// Spring Boot 기본 스타터
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// ommons IO (파일 처리 등)
+	implementation 'commons-io:commons-io:2.16.1' // 최신 버전 권장
+
+	// Lombok (보일러플레이트 제거)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// 데이터베이스
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// JWT (JSON Web Token)
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// 테스트 라이브러리
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Rest-Assured (통합 테스트용)
+	testImplementation 'io.rest-assured:rest-assured:5.4.0'
+	testImplementation 'io.rest-assured:json-path:5.4.0'   // JSON 응답 파싱
+	testImplementation 'org.hamcrest:hamcrest:2.2'         // 응답 값 검증
+	// (선택) XML 응답도 다루려면 추가
+	// testImplementation 'io.rest-assured:xml-path:5.4.0'
+
+	//.env파일 관련
+	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform() // JUnit5 기반 실행
+	finalizedBy 'jacocoTestReport' // 테스트 후 jacoco 리포트 자동 생성
+}
+
+tasks.named('jacocoTestReport') {
+	dependsOn tasks.named('test') // jacoco 실행 전 test 실행
+
+	reports {
+		xml.required = false  // XML 리포트 비활성화
+		csv.required = false  // CSV 리포트 비활성화
+		html.required = true  // 사람이 보기 편한 HTML 리포트 생성
+	}
+
+	// 커버리지 제외 규칙
+	def jacocoExcludes = [
+			'**/*DTO.*',         // DTO 클래스
+			'**/*Dto.*',         // Dto 네이밍
+			'**/*Request.*',     // Request 객체
+			'**/*Response.*',    // Response 객체
+			'**/*Config.*',      // 설정 파일
+			'**/*Filter.*',      // 필터
+			'**/*Application.*'  // 메인 애플리케이션 클래스
+			// ⚠️ Entity 제외 여부는 팀 정책에 따라 선택
+			// 예: '**/domain/*Entity.*'
+	]
+	classDirectories.setFrom(files(classDirectories.files.collect {
+		fileTree(dir: it, excludes: jacocoExcludes)
+	}))
+}

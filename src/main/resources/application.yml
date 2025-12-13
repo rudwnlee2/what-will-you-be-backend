@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: What Will You Be Backend
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  rest:
+    client:
+      connection-timeout: 10s
+      read-timeout: 30s
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: false
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+  logging:
+    level:
+      org.hibernate.SQL: info #debug
+      org.hibernate.type: off #trace
+      org.springframework.web.reactive.function.client.ExchangeFunctions: info #TRACE
+      org.apache.hc.client5.http: warn #DEBUG
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY}
+
+  token:
+    expiration: ${JWT_TOKEN_EXPIRATION}
+
+api:
+  python:
+    url: ${PYTHON_API_URL}
