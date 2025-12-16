@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor // @RequestBody로 들어온 JSON을 객체로 변환하려면 기본 생성자가 필요!
+@NoArgsConstructor
 @Builder
 public class MemberRequestDto {
 

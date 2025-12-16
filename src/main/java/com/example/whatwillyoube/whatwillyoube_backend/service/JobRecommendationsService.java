@@ -41,28 +41,23 @@ public class JobRecommendationsService {
         JobRecommendations recommendation = jobRecommendationsRepository.findById(recommendationId)
                 .orElseThrow(() -> new RecommendationNotFoundException(recommendationId));
 
-        // 2. (중요) 해당 추천 기록이 요청한 회원의 것인지 권한 확인
         if (!recommendation.getMember().getId().equals(memberId)) {
             throw new RecommendationAccessDeniedException(memberId);
         }
 
-        // 3. Entity -> DTO로 변환하여 반환
-        return JobRecommendationsResponseDto.fromEntity(recommendation); // DTO 변환 메서드 호출 (예시)
+        return JobRecommendationsResponseDto.fromEntity(recommendation);
     }
 
     @Transactional
     public void deleteJobRecommendation(Long memberId, Long recommendationId) {
 
-        // 1. 추천 기록 조회
         JobRecommendations recommendation = jobRecommendationsRepository.findById(recommendationId)
                 .orElseThrow(() -> new RecommendationNotFoundException(recommendationId));
 
-        // 2. (중요) 해당 추천 기록이 요청한 회원의 것인지 권한 확인
         if (!recommendation.getMember().getId().equals(memberId)) {
             throw new RecommendationAccessDeniedException(memberId);
         }
 
-        // 3. 레코드 삭제
         jobRecommendationsRepository.delete(recommendation);
 
     }

@@ -79,7 +79,7 @@ public class Member extends BaseTimeEntity{ // BaseTimeEntity 상속
 
     public void removeJobRecommendation(JobRecommendations job) {
         jobRecommendations.remove(job);
-        job.setMember(null); // orphanRemoval=true -> 컬렉션에서 제거되면 DB에서 삭제
+        job.setMember(null);
     }
 
     public void update(MemberRequestDto requestDto, PasswordEncoder passwordEncoder) {

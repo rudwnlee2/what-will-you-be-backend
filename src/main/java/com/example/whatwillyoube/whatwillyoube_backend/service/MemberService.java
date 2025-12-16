@@ -63,7 +63,6 @@ public class MemberService {
     @Transactional
     public MemberResponseDto updateMember(Long id, MemberRequestDto memberRequestDto) {
 
-        // 'id'(PK)로 회원을 정확하고 안전하게 찾습니다.
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new MemberNotFoundException(String.valueOf(id)));
 

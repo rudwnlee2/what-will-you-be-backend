@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-// 이 어노테이션이 Java의 camelCase 필드를 JSON의 snake_case 키로 변환
+//Java의 camelCase 필드를 JSON의 snake_case 키로 변환
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PythonApiRequestDto {
     private Long memberId;

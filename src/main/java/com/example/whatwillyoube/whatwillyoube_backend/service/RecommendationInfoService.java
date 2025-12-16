@@ -28,8 +28,6 @@ public class RecommendationInfoService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(String.valueOf(memberId)));
 
-//        RecommendationInfo info = recommendationInfoRepository.findByMemberIdWithMember(memberId)
-//                .orElseThrow(() -> new RecommendationInfoNotFoundException(memberId));
         RecommendationInfo info = member.getRecommendationInfo();
 
         if (info != null) {

@@ -30,7 +30,6 @@ public class MemberController {
 
         MemberResponseDto responseDto = memberService.signUp(memberRequestDto);
 
-        // 성공 시, HTTP 상태 코드 201(Created)과 함께 응답 DTO를 반환
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
@@ -45,10 +44,8 @@ public class MemberController {
 
     @GetMapping("/me")
     public ResponseEntity<MemberResponseDto> myPage(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        // @AuthenticationPrincipal 어노테이션이 인증된 사용자 정보를 UserDetailsImpl 형태로 주입해줍니다.
-        // 이제 request에서 직접 꺼낼 필요가 없습니다.
 
-        Long memberId = userDetails.getMember().getId(); // UserDetails에서 직접 ID를 가져옵니다.
+        Long memberId = userDetails.getMember().getId();
         MemberResponseDto responseDto = memberService.getMember(memberId);
 
         return ResponseEntity.ok(responseDto);

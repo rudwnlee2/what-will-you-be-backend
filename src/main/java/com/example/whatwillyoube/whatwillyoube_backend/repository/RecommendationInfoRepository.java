@@ -13,8 +13,4 @@ public interface RecommendationInfoRepository extends JpaRepository<Recommendati
 
     Optional<RecommendationInfo> findByMember_Id(Long memberId);
 
-    //member 중심으로 바꾼 후 미사용
-//    @Query("select r from RecommendationInfo r left join fetch r.member m where m.id = :memberId")
-//    Optional<RecommendationInfo> findByMemberIdWithMember(@Param("memberId") Long memberId);
-
 }

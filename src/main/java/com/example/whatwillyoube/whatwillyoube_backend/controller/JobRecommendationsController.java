@@ -57,7 +57,7 @@ public class JobRecommendationsController {
     @GetMapping("/{recommendationId}")
     public ResponseEntity<JobRecommendationsResponseDto> getDetailRecommendation(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @PathVariable Long recommendationId) { // URL 경로의 {recommendationId} 값을 파라미터로 받습니다.
+            @PathVariable Long recommendationId) {
 
         Long memberId = userDetails.getMember().getId();
 
@@ -73,7 +73,7 @@ public class JobRecommendationsController {
     @DeleteMapping("/{recommendationId}")
     public ResponseEntity<Void> deleteJobRecommendation(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @PathVariable Long recommendationId) { // URL 경로의 {recommendationId} 값을 파라미터로 받습니다.
+            @PathVariable Long recommendationId) {
 
         Long memberId = userDetails.getMember().getId();
 

@@ -18,7 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -35,9 +35,9 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("http://www.wwub.site"); // 해당 ip에만 응답 허용
-        configuration.addAllowedMethod("*"); // 모든 HTTP 요청을 허용
-        configuration.addAllowedHeader("*"); // 모든 헤더에 대한 응답 허용
+        configuration.addAllowedOrigin("http://www.wwub.site");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true); // 내 서버가 응답할 때 json을 자바스크립트에서 처리할 수 있게 할지를 설정
         configuration.setMaxAge(3600L);
         configuration.addExposedHeader("Authorization");
@@ -54,7 +54,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // 기존 설정 (csrf, formLogin, httpBasic, sessionManagement)은 그대로 둡니다.
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session
@@ -73,10 +72,8 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
         );
 
-        //2. 우리가 만든 필터를 기본 필터 앞에 추가
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        //formLogin, httpBasic 비활성화는 authorizeHttpRequests 뒤에 와도 괜찮습니다.
         http.formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable());
 

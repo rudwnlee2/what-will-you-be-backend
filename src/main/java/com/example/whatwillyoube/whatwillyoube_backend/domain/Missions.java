@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED) // 또는 SINGLE_TABLE
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE") // 미션 타입을 구분할 컬럼
 @Getter
 @Table(name = "missions")
