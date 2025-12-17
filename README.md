@@ -100,7 +100,7 @@
         return calculateSize(object);
     }
     ```
-* **결과 (Result):** AI 서버와의 통신 성공률 **100% 달성** 및 데이터 누락 없는 안정적인 파이프라인 구축 완료.
+* **결과 (Result):** Content-Length 헤더 명시를 통해 Chunked Encoding 문제를 해결하고, Python 서버가 요청 바디를 정상적으로 파싱할 수 있게 되었습니다. 이후 통합 테스트를 통해 데이터 누락 없이 안정적인 파이프라인 구축을 검증했습니다.
 
 <br>
 
