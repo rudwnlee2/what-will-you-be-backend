@@ -4,11 +4,11 @@
 > 사용자의 성향(MBTI, Holland 등)을 분석하여 맞춤형 직업을 추천하여 제공합니다.
 >
 > **개발 기간:** 2024.07 ~ 2024.10 (4개월)  
-> **팀 구성:** 4인 (Frontend 1, Backend 1, AI 2) - 이기종 서버 간 협업
+> **팀 구성:** 4인 (Frontend 1, Backend 1, AI 2) - 서버 연동 및 통합
 >
 > My Role (Backend)
 > - 추천 요청–응답 전체 파이프라인 설계 및 구현
-> - Spring ↔ Python AI 서버 통신 구조 설계 및 장애 해결
+> - Spring(Main) ↔ Python(AI) 서버 간 API 연동 설계 및 통신 트러블 슈팅
 > - 테스트 환경 구축 및 라인 커버리지 90% 달성
 
 <div align="left">
@@ -25,7 +25,7 @@
 이 프로젝트는 **'What Will You Be'** 서비스의 백엔드 API 서버입니다.  
 사용자 데이터 관리뿐만 아니라, **Python AI 서버와의 통신을 통한 직업 추천 파이프라인**을 구축하고 **안정적인 서비스 운영을 위한 테스트 코드 작성**에 중점을 두었습니다.
 
-* **핵심 역할:** RESTful API 설계, 이기종 서버(Java ↔ Python) 간 통신 구현, 테스트 환경 구축
+* **핵심 역할:** RESTful API 설계, Java(Spring) ↔ Python(Django) 서버 간 API 연동 구현, 테스트 환경 구축
 * **주요 목표:** `RestClient`를 활용한 **안정적인 외부 API 연동**
     * AI 데이터 처리를 고려한 **데이터 정합성 보장**
     * **테스트 커버리지(Line Coverage) 90% 달성**을 통한 시스템 안정성 확보
@@ -39,7 +39,7 @@
 | **Language** | Java 17 | 안정성과 호환성이 검증된 표준 LTS 버전 |
 | **Framework** | Spring Boot 3.x | 빠르고 안정적인 서버 구축 |
 | **Database** | MySQL 8.0 | 데이터 영속성 관리 (JPA 활용) |
-| **Network** | Spring 6 RestClient | Python AI 서버와의 통신 인터페이스 |
+| **Network** | Spring 6 RestClient | Python AI 서버와의 REST 통신 |
 | **Testing** | JUnit5, Mockito, RestAssured, Jacoco | 단위/통합 테스트 및 커버리지 분석 (90% 달성) |
 | **Build Tool** | Gradle | 빌드 및 의존성 관리 |
 
@@ -47,13 +47,13 @@
 
 ## 🏛️ System Architecture & Logic
 
-전체 시스템은 **React(Front) ↔ Spring Boot(Main Server) ↔ Django(AI Server)** 구조로 구성되어 있습니다.
+서비스는 **React(Front) ↔ Spring Boot(Main Server) ↔ Django(AI Server)** 구조로 구성되어 있습니다.
 
 * **Spring Boot 서버의 역할**
   * 클라이언트 요청을 받아 데이터를 가공
   * AI 서버와 통신하여 분석 결과를 클라이언트에 전달하는 역할
 
-* **서버 분리 설계**
+* **서버 역할 분리 및 연동 구조**
   * AI 분석 로직의 변경이나 장애가
     API 서버의 도메인 로직에 직접적인 영향을 주지 않도록
     **논리적으로 역할을 분리**
